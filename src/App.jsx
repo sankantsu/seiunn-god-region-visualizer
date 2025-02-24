@@ -132,7 +132,7 @@ function App() {
         ))}
       </div>
       <div className="selected-tiles-container">
-        <h2>ドラ表示牌</h2>
+        <h2>ドラ表示牌: ({doraDisplayTiles.length} 枚)</h2>
         <div>
           {doraDisplayTiles.map((tile, index) => (
             <button
