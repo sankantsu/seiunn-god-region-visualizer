@@ -34,35 +34,37 @@ const doraTable = {
 }
 
 function makeTileImgURL(tileName) {
+  const base = import.meta.env.BASE_URL
+
   let imgURL;
   if (tileName.endsWith("m")) {
-    imgURL = `/manzu2_1/p_ms${parseInt(tileName)}_1.gif`;
+    imgURL = base + `/manzu2_1/p_ms${parseInt(tileName)}_1.gif`;
   } else if (tileName.endsWith("p")) {
-    imgURL = `/pinzu2_1/p_ps${parseInt(tileName)}_1.gif`;
+    imgURL = base + `/pinzu2_1/p_ps${parseInt(tileName)}_1.gif`;
   } else if (tileName.endsWith("s")) {
-    imgURL = `/sozu2_1/p_ss${parseInt(tileName)}_1.gif`;
+    imgURL = base + `/sozu2_1/p_ss${parseInt(tileName)}_1.gif`;
   } else {
     switch (tileName) {
       case "東":
-        imgURL = "/tupai2_1/p_ji_e_1.gif";
+        imgURL = base + "/tupai2_1/p_ji_e_1.gif";
         break;
       case "南":
-        imgURL = "/tupai2_1/p_ji_s_1.gif";
+        imgURL = base + "/tupai2_1/p_ji_s_1.gif";
         break;
       case "西":
-        imgURL = "/tupai2_1/p_ji_w_1.gif";
+        imgURL = base + "/tupai2_1/p_ji_w_1.gif";
         break;
       case "北":
-        imgURL = "/tupai2_1/p_ji_n_1.gif";
+        imgURL = base + "/tupai2_1/p_ji_n_1.gif";
         break;
       case "白":
-        imgURL = "/tupai2_1/p_no_1.gif";
+        imgURL = base + "/tupai2_1/p_no_1.gif";
         break;
       case "発":
-        imgURL = "/tupai2_1/p_ji_h_1.gif";
+        imgURL = base + "/tupai2_1/p_ji_h_1.gif";
         break;
       case "中":
-        imgURL = "/tupai2_1/p_ji_c_1.gif";
+        imgURL = base + "/tupai2_1/p_ji_c_1.gif";
         break;
       default:
     }
