@@ -44,7 +44,8 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+  transform: translateY(-4px);
 }
 button:focus,
 button:focus-visible {
