@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import "./App.css"
 
-const tiles = [ "1m", "9m", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "8s", "9s", "東", "南", "西", "北", "白", "発", "中"]
+const manzu_tiles = ["1m", "9m"]
+const pinzu_tiles = ["1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p"]
+const souzu_tiles = ["1s", "2s", "3s", "4s", "5s", "6s", "7s", "8s", "9s"]
+const tupai_tiles = ["東", "南", "西", "北", "白", "発", "中"]
+const tiles = [...manzu_tiles, ...pinzu_tiles, ...souzu_tiles, ...tupai_tiles]
 
 const doraTable = {
   "1m": "9m",
@@ -72,6 +76,39 @@ function makeTileImgURL(tileName) {
   return imgURL
 }
 
+const darumaList = [
+  {
+    "value": "manzu-disable",
+    "label": "萬子ドラ無効",
+  },
+  {
+    "value": "pinzu-disable",
+    "label": "筒子ドラ無効",
+  },
+  {
+    "value": "souzu-disable",
+    "label": "索子ドラ無効",
+  },
+  {
+    "value": "other",
+    "label": "その他",
+  },
+]
+
+function DarumaSelectRadio({darumaDsc, checked, onDarumaSelect}) {
+  return (<>
+    <input
+      type="radio"
+      id={`daruma-select-${darumaDsc.value}`}
+      name="daruma"
+      value={darumaDsc.value}
+      checked={checked}
+      onChange={onDarumaSelect}
+    />
+    <label htmlFor={`daruma-select-${darumaDsc.value}`}>{darumaDsc.label}</label>
+  </>)
+}
+
 function App() {
   const [doraDisplayTiles, setDoraDisplayTiles] = useState([]);
 
@@ -97,11 +134,22 @@ function App() {
     setDoraDisplayTiles(newSelectedTiles);
   };
 
+  const [selectedDaruma, setSelectedDaruma] = useState("other");
+  function onDarumaSelect(event) {
+    setSelectedDaruma(event.target.value)
+  }
+
   const isGodRegionTile = Array(27).fill(false);
   for (const doraDisplay of doraDisplayTiles) {
     let dora = doraTable[doraDisplay];
     let doraDisplayIdx = tiles.findIndex((tile) => tile === doraDisplay);
     let doraIdx = tiles.findIndex((tile) => { return tile === dora });
+    // Skip disabled dora
+    if (selectedDaruma == "manzu-disable" && manzu_tiles.includes(doraDisplay)
+      || selectedDaruma == "pinzu-disable" && pinzu_tiles.includes(doraDisplay)
+      || selectedDaruma == "souzu-disable" && souzu_tiles.includes(doraDisplay)) {
+      continue;
+    }
     isGodRegionTile[doraDisplayIdx] = true;
     isGodRegionTile[doraIdx] = true;
   }
@@ -131,6 +179,19 @@ function App() {
           </button>
         ))}
       </div>
+        <h2>ダルマ効果</h2>
+        <div className="daruma-select-container">
+          {
+            darumaList.map(darumaDsc => (
+              <DarumaSelectRadio
+                key={darumaDsc.value}
+                darumaDsc={darumaDsc}
+                checked={darumaDsc.value == selectedDaruma}
+                onDarumaSelect={onDarumaSelect}
+              />
+            ))
+          }
+        </div>
       <div className="selected-tiles-container">
         <h2>ドラ表示牌: ({doraDisplayTiles.length} 枚)</h2>
         <div>
