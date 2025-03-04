@@ -141,12 +141,18 @@ function GodRegionTiles({tiles, isGodRegionTile, includeOutOfRegion}) {
 }
 
 function App() {
-  const [doraDisplayTiles, setDoraDisplayTiles] = useState([]);
-
-  const handleTileClick = (doraDisplay) => {
+  const handleInputPanelClick = (doraDisplay) => {
     if (doraDisplayTiles.length < 10 && !exhaustedTiles.has(doraDisplay)) {
       setDoraDisplayTiles([...doraDisplayTiles, doraDisplay]);
     }
+  };
+
+  const [doraDisplayTiles, setDoraDisplayTiles] = useState([]);
+
+  const handleDoraDisplayTileClick = (removeIdx) => {
+    let newDoraDisplayTiles = [...doraDisplayTiles];
+    newDoraDisplayTiles.splice(removeIdx, 1);
+    setDoraDisplayTiles(newDoraDisplayTiles);
   };
 
   let doraDisplayCount = Array(27).fill(0);
@@ -158,12 +164,6 @@ function App() {
       exhaustedTiles.add(doraDisplay);
     }
   }
-
-  const handleSelectedTileClick = (removeIdx) => {
-    let newSelectedTiles = [...doraDisplayTiles];
-    newSelectedTiles.splice(removeIdx, 1);
-    setDoraDisplayTiles(newSelectedTiles);
-  };
 
   const [selectedDaruma, setSelectedDaruma] = useState("other");
   function onDarumaSelect(event) {
@@ -210,7 +210,7 @@ function App() {
           >
             <img
               src={makeTileImgURL(tile)}
-              onClick={() => handleTileClick(tile)}
+              onClick={() => handleInputPanelClick(tile)}
             />
           </button>
         ))}
@@ -237,7 +237,7 @@ function App() {
             >
               <img
                 src={makeTileImgURL(tile)}
-                onClick={() => handleSelectedTileClick(index)} // Click handler for selected tiles
+                onClick={() => handleDoraDisplayTileClick(index)} // Click handler for selected tiles
               />
             </button>
           ))}
