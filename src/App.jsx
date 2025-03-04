@@ -109,6 +109,37 @@ function DarumaSelectRadio({darumaDsc, checked, onDarumaSelect}) {
   </>)
 }
 
+function OutOfRegionToggle({includeProhibited, handleSetIncludeProhibited}) {
+  return <label className="toggle-container">
+    領域牌以外を含めて表示
+    <input
+      type="checkbox"
+      checked={includeProhibited}
+      onChange={handleSetIncludeProhibited}
+    />
+    <span className="slider"></span>
+  </label>
+}
+
+function GodRegionTiles({tiles, isGodRegionTile, includeOutOfRegion}) {
+  function Empty() {
+    return <></>
+  }
+  return (<div>
+    {tiles.map((tile, index) => (
+      isGodRegionTile[index] || includeOutOfRegion
+        ? (<div key={index} className="god-region-tile-container">
+          <img
+            className={includeOutOfRegion && !isGodRegionTile[index] ? "out-of-region-tile" : ""}
+            src={makeTileImgURL(tile)}
+          />
+          {includeOutOfRegion && !isGodRegionTile[index] ? <div className="cancel-mark"></div> : <></>}
+        </div>)
+        : <Empty key={index}/>
+    ))}
+  </div>)
+}
+
 function App() {
   const [doraDisplayTiles, setDoraDisplayTiles] = useState([]);
 
@@ -137,6 +168,11 @@ function App() {
   const [selectedDaruma, setSelectedDaruma] = useState("other");
   function onDarumaSelect(event) {
     setSelectedDaruma(event.target.value)
+  }
+
+  const [includeOutOfRegion, setIncludeOutOfRegion] = useState(false);
+  function handleSetIncludeOutOfRegion(event) {
+    setIncludeOutOfRegion(event.target.checked)
   }
 
   const isGodRegionTile = Array(27).fill(false);
@@ -207,16 +243,17 @@ function App() {
           ))}
         </div>
       </div>
-      <div className="god-region-tiles-continer">
+      <div className="god-region-tiles-container">
         <h2>領域牌: ({godRegionTiles.length} 枚)</h2>
-        <div>
-          {godRegionTiles.map((tile, index) => (
-            <img
-              src={makeTileImgURL(tile)}
-              key={index}
-            />
-          ))}
-        </div>
+        <OutOfRegionToggle
+          includeProhibited={includeOutOfRegion}
+          handleSetIncludeProhibited={handleSetIncludeOutOfRegion}
+        />
+        <GodRegionTiles
+          tiles={tiles}
+          isGodRegionTile={isGodRegionTile}
+          includeOutOfRegion={includeOutOfRegion}
+        />
       </div>
     </div>
   );

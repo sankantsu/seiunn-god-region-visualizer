@@ -1,3 +1,83 @@
 .exhausted-tile {
   opacity: 0.4;
 }
+
+.god-region-tile-container {
+  display: inline-block;
+  position: relative;
+  line-height: 0; /* prevent extra vertical space after tile image */
+}
+
+.god-region-tile-container .out-of-region-tile {
+  opacity: 0.4;
+}
+
+.god-region-tile-container .cancel-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.god-region-tile-container .cancel-mark::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  opacity: 60%;
+  background-color: rgb(217, 38, 38);
+  transform: translateX(-50%) rotate(30deg);
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.toggle-container input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: relative;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 20px;
+    width: 40px;
+    height: 22px;
+    margin-right: 10px;
+}
+
+/* knob element in slider */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+  /* fill slider when checked */
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  /* slide knob to right */
+  transform: translateX(18px);
+}
